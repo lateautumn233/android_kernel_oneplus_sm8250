@@ -29,6 +29,10 @@ jobs:
         git clone https://codeberg.org/Mandi-Sa/clang --dept=1 -b amd64-kernel-arm
         git clone https://github.com/lateautumn233/AnyKernel3 -b master --depth=1
         rm -rf AnyKernel3/.git
+    
+    - name: GetTime
+      id: get_time
+      run: |
         echo "TIME=$(TZ=UTC-8 date +%m%d%H%M )" >> $GITHUB_OUTPUT
 
     - name: Build Kernel
@@ -43,7 +47,7 @@ jobs:
     - name: Upload Kernel
       uses: actions/upload-artifact@v3
       with:
-        name: Qiuqiu-kernel-${{ steps.prepareArtifact.outputs.TIME }}
+        name: Qiuqiu-kernel-${{ steps.get_time.outputs.TIME }}
         path: "AnyKernel3/*"
 
     - name: Build Kernel-SU
@@ -57,5 +61,5 @@ jobs:
     - name: Upload Kernel-SU
       uses: actions/upload-artifact@v3
       with:
-        name: Qiuqiu-kernel-SU-${{ steps.prepareArtifact.outputs.TIME }}
+        name: Qiuqiu-kernel-SU-${{ steps.get_time.outputs.TIME }}
         path: "AnyKernel3/*"
